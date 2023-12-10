@@ -1,39 +1,23 @@
-import React, { createContext, useState, useContext } from "react";
+// src/ThemeContext.js
+import React, { createContext, useContext, useState } from 'react';
 
 const ThemeContext = createContext();
-const CustomThemeContext = createContext();
 
 export const useTheme = () => {
   return useContext(ThemeContext);
 };
 
-export const useContextTheme = () => {
-  return useContext(CustomThemeContext);
-};
-
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("light");
-  const [customeTheme, setCustomeTheme] = useState({
-    light: { background: "#ffffff", text: "#000000" },
-    dark: { background: "#333333", text: "#ffffff" },
-  });
+  const [theme, setTheme] = useState('light');
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  const updateCustomTheme = (newTheme) => {
-    setCustomeTheme((prevCustomeTheme) => ({
-      ...prevCustomeTheme,
-      [theme]: newTheme,
-    }));
+  const contextValue = {
+    theme,
+    toggleTheme,
   };
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <CustomThemeContext.Provider value={{ customeTheme, updateCustomTheme}}>
-      {children}
-      </CustomThemeContext.Provider>
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };

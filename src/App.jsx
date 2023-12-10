@@ -1,14 +1,25 @@
-import "./App.css";
-import ThemeSwitcher from "./ThemeSwitcher";
-import { ThemeProvider } from "./ThemeContext";
+// src/App.js
+import React from 'react';
+import { ThemeProvider, useTheme } from './ThemeContext';
 
-function App() {
-  return <ThemeProvider>
-    <div>
-      <h1>Theme Switcher App</h1>
-      <ThemeSwitcher />
+const ThemedComponent = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <div style={{ padding: '20px', background: theme === 'light' ? '#fff' : '#333', color: theme === 'light' ? '#000' : '#fff' }}>
+      <h1>My Theme Switcher</h1>
+      <p>Current Theme: {theme}</p>
+      <button onClick={toggleTheme}>Toggle Theme</button>
     </div>
-  </ThemeProvider>;
-}
+  );
+};
+
+const App = () => {
+  return (
+    <ThemeProvider>
+      <ThemedComponent />
+    </ThemeProvider>
+  );
+};
 
 export default App;
